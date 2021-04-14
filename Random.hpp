@@ -35,10 +35,12 @@ inline int Rand::Random::RandInt(int max) {
 
 inline double Rand::Random::RandDouble(double min, double max){
 	std::uniform_real_distribution<double> dist(min,max);
+	return dist(mt);
 }
 
 inline double Rand::Random::RandDouble(double max){
 	std::uniform_real_distribution<double> dist(0, max);
+	return dist(mt);
 }
 
 inline bool Rand::Random::RandBool(double rate){

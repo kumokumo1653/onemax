@@ -1,12 +1,12 @@
-#pragma once
 #include "genom.hpp"
 
+Genom::Genom(){}
 Genom::Genom(vector<int> list, double eval){
     Genom::eval = eval;
     Genom::list = list;
 }
 
-vector<int> Genom::getGenom(){
+vector<int> Genom::getGenom() {
     return list;
 }
 double Genom::getEval(){
