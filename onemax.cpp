@@ -3,17 +3,17 @@
 #include "Random.hpp"
 using namespace std;
 //遺伝子情報の長さ
-int GENOM_LENGTH = 10;
+int GENOM_LENGTH = 100;
 //遺伝子集団の大きさ
-int MAX_GENOM_LIST = 10;
+int MAX_GENOM_LIST = 100;
 //遺伝子選択数
 int SELECT_GENOM = 5;
 //個体突然変異確率 
-double INDIVIDUAL_MUTATION = 0.01;
+double INDIVIDUAL_MUTATION = 0.1;
 //遺伝子突然変異確率 
-double GENOM_MUTATION = 0.01;
+double GENOM_MUTATION = 0.1;
 //繰り返す世代数
-int MAX_GENERATION = 5;
+int MAX_GENERATION = 40;
 
 Rand::Random r;
 
@@ -42,21 +42,18 @@ int main (void) {
 
         //エリート集団の選択
         vector<Genom> elites = select(currentGroup, SELECT_GENOM);
-
         vector<Genom> progeny;
         //エリート集団の交叉
         for(int i = 1; i < SELECT_GENOM; i++){
             vector<Genom> temp;
             temp = crossover(elites[i - 1], elites[i]);
             progeny.push_back(temp[0]);
-            progeny.push_back(temp[1]);
         }
 
-
         //次世代を現行世代，エリート世代，子孫世代から作成
-        nextGroup = createNextGene(currentGroup, elites, progeny);
+        currentGroup = createNextGene(currentGroup, elites, progeny);
         //全てに突然変異処理
-        mutation(nextGroup, INDIVIDUAL_MUTATION, GENOM_MUTATION);
+        mutation(currentGroup, INDIVIDUAL_MUTATION, GENOM_MUTATION);
 
 
         //評価
