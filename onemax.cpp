@@ -7,7 +7,7 @@ int GENOM_LENGTH = 100;
 //遺伝子集団の大きさ
 int MAX_GENOM_LIST = 100;
 //遺伝子選択数
-int SELECT_GENOM = 5;
+int SELECT_GENOM = 20;
 //個体突然変異確率 
 double INDIVIDUAL_MUTATION = 0.1;
 //遺伝子突然変異確率 
@@ -48,10 +48,18 @@ int main (void) {
             vector<Genom> temp;
             temp = crossover(elites[i - 1], elites[i]);
             progeny.push_back(temp[0]);
+            progeny.push_back(temp[1]);
+            
         }
-
         //次世代を現行世代，エリート世代，子孫世代から作成
         currentGroup = createNextGene(currentGroup, elites, progeny);
+        //for(int i = 0; i < MAX_GENOM_LIST; i++){
+            //vector<int> list = currentGroup[i].getGenom();
+            //for(int k = 0; k < GENOM_LENGTH; k++){
+                //printf("%d ",list[k]);
+            //}
+            //printf("eval:%f\n", currentGroup[i].getEval());
+        //}
         //全てに突然変異処理
         mutation(currentGroup, INDIVIDUAL_MUTATION, GENOM_MUTATION);
 
@@ -127,8 +135,13 @@ vector<Genom> crossover(Genom a_genom, Genom b_genom){
         cross_a.push_back(a[i]);
         cross_b.push_back(b[i]);
     }
-    temp.push_back(Genom(cross_a, 0));
-    temp.push_back(Genom(cross_b, 0));
+    
+    Genom genom_a = Genom(cross_a, 0);
+    Genom genom_b = Genom(cross_b, 0);
+    genom_a.setEval(evaluation(genom_a));
+    genom_b.setEval(evaluation(genom_b));
+    temp.push_back(genom_a);
+    temp.push_back(genom_b);
     return temp;
 }
 //世代交代
